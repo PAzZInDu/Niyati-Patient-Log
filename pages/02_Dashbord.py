@@ -4,7 +4,7 @@ from datetime import datetime
 from data import load_logs_from_supabase
 
 # Import shared variables and functions from 00_User_Info
-from pages.00_User_Info import (
+from pages.User_Info import (
     supabase, BUCKET_NAME, get_user_id, load_patient_profile
 )
 
