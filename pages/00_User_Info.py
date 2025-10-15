@@ -4,14 +4,14 @@ from datetime import datetime, date, timedelta
 import json
 import os
 from pathlib import Path
-from data import (
+from utils import (
     get_supabase_client,
     save_patient_profile as save_profile_to_supabase,
     load_patient_profile as load_profile_from_supabase,
     save_daily_log as save_log_to_supabase,
     load_daily_logs as load_logs_from_supabase
 )
-from data import load_patient_profile as load_profile_from_supabase
+
 
 if not st.user.is_logged_in:
     st.error("Please log in to access the App")
@@ -26,7 +26,7 @@ BUCKET_NAME = st.secrets.get("BUCKET_NAME")
 @st.cache_resource
 def get_supabase():
     if not SUPABASE_URL or not SUPABASE_KEY:
-        st.error("Supabase credentials not configured. Please set SUPABASE_URL and SUPABASE_KEY in secrets.toml")
+        st.error("Supabase credentials not configured")
         return None
     return get_supabase_client(SUPABASE_URL, SUPABASE_KEY)
 
