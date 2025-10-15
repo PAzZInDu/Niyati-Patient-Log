@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, date
-from data import load_logs_from_supabase, save_log_to_supabase
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from data import load_logs_from_supabase, save_log_to_supabase
+
 
 # Import shared variables and functions from 00_User_Info
 from pages.User_Info import (
