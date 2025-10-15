@@ -12,7 +12,9 @@ from data import (
     load_daily_logs as load_logs_from_supabase
 )
 
-
+if not st.user.is_logged_in:
+    st.error("Please log in to access the App")
+    st.stop()
 
 # Supabase configuration
 SUPABASE_URL = st.secrets.get("SUPABASE_URL")

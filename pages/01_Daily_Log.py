@@ -9,6 +9,10 @@ from pages.00_User_Info import (
     get_user_id, load_patient_profile
 )
 
+if not st.user.is_logged_in:
+    st.error("Please log in to access the App")
+    st.stop()
+    
 # Set page config
 st.set_page_config(
     page_title="Daily Log",
