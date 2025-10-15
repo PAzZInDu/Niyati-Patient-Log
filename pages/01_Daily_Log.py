@@ -45,116 +45,114 @@ def save_daily_log(log_entry):
     user_id = get_user_id()
     return save_log_to_supabase(supabase, BUCKET_NAME, user_id, log_entry)
 
-def main():
-    st.title("📝 Daily Log Entry")
-    
-    # Load profile to get user's name
-    profile = load_patient_profile()
-    if not profile:
-        st.error("Please complete your profile first.")
-        return
-        
-    st.write(f"Welcome back, {profile.get('name', 'there')}! Let's log your day.")
-    
-    with st.form("daily_log_form"):
-        # Date and Time
-        col1, col2 = st.columns(2)
-        with col1:
-            log_date = st.date_input("Date", value=date.today())
-        with col2:
-            log_time = st.time_input("Time", value=datetime.now().time())
-        
-        # Symptoms
-        st.subheader("😵‍💫 Symptoms")
-        selected_symptoms = st.multiselect(
-            "What kind of problems are you experiencing today?",
-            SYMPTOMS
-        )
-        other_symptoms = st.text_input("Other symptoms (please specify)")
-        
-        # Medication
-        st.subheader("💊 Medication")
-        med_taken = st.radio(
-            "Have you taken your prescribed medication today?",
-            ["Yes", "No"],
-            horizontal=True
-        )
-        
-        medication_name = ""
-        if med_taken == "Yes":
-            if profile.get('medications'):
-                medication_name = st.selectbox(
-                    "Which medication?",
-                    profile['medications']
-                )
-            else:
-                medication_name = st.text_input("Enter medication name")
-        
-        # Doctor Visit
-        st.subheader("👨‍⚕️ Doctor / Treatment")
-        doctor_visited = st.radio(
-            "Did you visit a doctor today?",
-            ["Yes", "No"],
-            horizontal=True
-        )
-        
-        doctor_type = ""
-        doctor_notes = ""
-        if doctor_visited == "Yes":
-            doctor_type = st.selectbox("What kind of doctor?", DOCTOR_TYPES)
-            if doctor_type == "Other":
-                doctor_type = st.text_input("Please specify")
-            doctor_notes = st.text_area("Any new advice or change in medication?")
-        
-        # Recovery Indicators
-        st.subheader("🧩 Recovery Indicators")
-        symptom_severity = st.slider(
-            "How severe are your symptoms today?",
-            1, 10, 5,
-            help="1 = Very mild, 10 = Extremely severe"
-        )
-        
-        sleep_quality = st.radio(
-            "How was your sleep last night?",
-            ["😊 Good", "😐 Average", "😞 Poor"],
-            horizontal=True
-        )
-        
-        physical_activity = st.radio(
-            "Did you do any physical activity today?",
-            ["🚶‍♂️ Light", "🏃‍♂️ Moderate", "💪 Intense", "❌ None"],
-            horizontal=True
-        )
-        
-        mood = st.radio(
-            "Overall feeling today:",
-            ["😀", "🙂", "😐", "🙁", "😢"],
-            horizontal=True
-        )
-        
-        submitted = st.form_submit_button("Save Daily Log")
-        if submitted:
-            log_entry = {
-                'date': log_date.isoformat(),
-                'time': log_time.strftime("%H:%M"),
-                'symptoms': ", ".join(selected_symptoms),
-                'other_symptoms': other_symptoms,
-                'medication_taken': med_taken == "Yes",
-                'medication_name': medication_name if med_taken == "Yes" else "",
-                'doctor_visited': doctor_visited == "Yes",
-                'doctor_type': doctor_type if doctor_visited == "Yes" else "",
-                'doctor_notes': doctor_notes if doctor_visited == "Yes" else "",
-                'symptom_severity': symptom_severity,
-                'sleep_quality': sleep_quality.split()[0],
-                'physical_activity': physical_activity.split()[-1],
-                'mood': mood,
-                'logged_at': datetime.utcnow().isoformat()
-            }
-            
-            if save_daily_log(log_entry):
-                st.success("Daily log saved successfully!")
-            else:
-                st.error("Failed to save daily log. Please try again.")
 
-if __name__ == "__main__":
-    main()
+# App
+st.title("📝 Daily Log Entry")
+
+# Load profile to get user's name
+profile = load_patient_profile()
+if not profile:
+    st.error("Please complete your profile first.")
+    return
+    
+st.write(f"Welcome back, {profile.get('name', 'there')}! Let's log your day.")
+
+with st.form("daily_log_form"):
+    # Date and Time
+    col1, col2 = st.columns(2)
+    with col1:
+        log_date = st.date_input("Date", value=date.today())
+    with col2:
+        log_time = st.time_input("Time", value=datetime.now().time())
+    
+    # Symptoms
+    st.subheader("😵‍💫 Symptoms")
+    selected_symptoms = st.multiselect(
+        "What kind of problems are you experiencing today?",
+        SYMPTOMS
+    )
+    other_symptoms = st.text_input("Other symptoms (please specify)")
+    
+    # Medication
+    st.subheader("💊 Medication")
+    med_taken = st.radio(
+        "Have you taken your prescribed medication today?",
+        ["Yes", "No"],
+        horizontal=True
+    )
+    
+    medication_name = ""
+    if med_taken == "Yes":
+        if profile.get('medications'):
+            medication_name = st.selectbox(
+                "Which medication?",
+                profile['medications']
+            )
+        else:
+            medication_name = st.text_input("Enter medication name")
+    
+    # Doctor Visit
+    st.subheader("👨‍⚕️ Doctor / Treatment")
+    doctor_visited = st.radio(
+        "Did you visit a doctor today?",
+        ["Yes", "No"],
+        horizontal=True
+    )
+    
+    doctor_type = ""
+    doctor_notes = ""
+    if doctor_visited == "Yes":
+        doctor_type = st.selectbox("What kind of doctor?", DOCTOR_TYPES)
+        if doctor_type == "Other":
+            doctor_type = st.text_input("Please specify")
+        doctor_notes = st.text_area("Any new advice or change in medication?")
+    
+    # Recovery Indicators
+    st.subheader("🧩 Recovery Indicators")
+    symptom_severity = st.slider(
+        "How severe are your symptoms today?",
+        1, 10, 5,
+        help="1 = Very mild, 10 = Extremely severe"
+    )
+    
+    sleep_quality = st.radio(
+        "How was your sleep last night?",
+        ["😊 Good", "😐 Average", "😞 Poor"],
+        horizontal=True
+    )
+    
+    physical_activity = st.radio(
+        "Did you do any physical activity today?",
+        ["🚶‍♂️ Light", "🏃‍♂️ Moderate", "💪 Intense", "❌ None"],
+        horizontal=True
+    )
+    
+    mood = st.radio(
+        "Overall feeling today:",
+        ["😀", "🙂", "😐", "🙁", "😢"],
+        horizontal=True
+    )
+    
+    submitted = st.form_submit_button("Save Daily Log")
+    if submitted:
+        log_entry = {
+            'date': log_date.isoformat(),
+            'time': log_time.strftime("%H:%M"),
+            'symptoms': ", ".join(selected_symptoms),
+            'other_symptoms': other_symptoms,
+            'medication_taken': med_taken == "Yes",
+            'medication_name': medication_name if med_taken == "Yes" else "",
+            'doctor_visited': doctor_visited == "Yes",
+            'doctor_type': doctor_type if doctor_visited == "Yes" else "",
+            'doctor_notes': doctor_notes if doctor_visited == "Yes" else "",
+            'symptom_severity': symptom_severity,
+            'sleep_quality': sleep_quality.split()[0],
+            'physical_activity': physical_activity.split()[-1],
+            'mood': mood,
+            'logged_at': datetime.utcnow().isoformat()
+        }
+        
+        if save_daily_log(log_entry):
+            st.success("Daily log saved successfully!")
+        else:
+            st.error("Failed to save daily log. Please try again.")
