@@ -105,12 +105,8 @@ def patient_profile_form():
                     st.error("Failed to save profile. Please try again.")
 
 # Main function
-def main():
-    if not st.session_state.profile_exists:
-        patient_profile_form()
-    else:
-        st.session_state.profile = load_patient_profile()
-        st.info("Profile already exists. You can view or update it from the Profile page.")
-
-if __name__ == "__main__":
-    main()
+if not st.session_state.profile_exists:
+    patient_profile_form()
+else:
+    st.session_state.profile = load_patient_profile()
+    st.info("Profile already exists. You can view or update it from the Profile page.")
