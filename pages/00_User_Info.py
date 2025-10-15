@@ -7,9 +7,7 @@ from pathlib import Path
 from utils import (
     get_supabase_client,
     save_patient_profile as save_profile_to_supabase,
-    load_patient_profile as load_profile_from_supabase,
-    save_daily_log as save_log_to_supabase,
-    load_daily_logs as load_logs_from_supabase
+    load_patient_profile as load_profile_from_supabase
 )
 
 

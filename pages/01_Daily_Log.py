@@ -4,7 +4,7 @@ from datetime import datetime, date
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from data import load_daily_logs, save_daily_log
+from utils import load_daily_logs, save_daily_log
 
 
 # Import shared variables and functions from 00_User_Info
