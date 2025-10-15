@@ -11,6 +11,7 @@ from data import (
     save_daily_log as save_log_to_supabase,
     load_daily_logs as load_logs_from_supabase
 )
+from data import load_patient_profile as load_profile_from_supabase
 
 if not st.user.is_logged_in:
     st.error("Please log in to access the App")
