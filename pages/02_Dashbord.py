@@ -25,7 +25,7 @@ st.title("📊 Recovery Dashboard")
 profile = load_patient_profile()
 if not profile:
     st.error("Please complete your profile first.")
-    return
+    
 
 # Load logs
 user_id = get_user_id()
@@ -33,7 +33,7 @@ logs = load_logs_from_supabase(supabase, BUCKET_NAME, user_id)
 
 if logs is None or logs.empty:
     st.info("No logs available yet. Please complete a daily log entry first.")
-    return
+    
 
 # Ensure date column is in datetime format
 if 'date' in logs.columns:
@@ -44,7 +44,7 @@ logs = logs.dropna(subset=['date'])
 
 if logs.empty:
     st.info("No valid log entries found. Please complete a daily log entry first.")
-    return
+    
 
 # Summary stats
 st.subheader("Recovery Overview")

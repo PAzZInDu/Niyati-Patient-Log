@@ -57,7 +57,7 @@ st.title("📝 Daily Log Entry")
 profile = load_patient_profile()
 if not profile:
     st.error("Please complete your profile first.")
-    return
+    
     
 st.write(f"Welcome back, {profile.get('name', 'there')}! Let's log your day.")
 
