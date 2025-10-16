@@ -52,7 +52,7 @@ def patient_profile_form():
         submitted = st.form_submit_button("Save Profile")
 
         if id:
-            session.state.ID = id
+            st.session_state.ID = id
 
         if submitted:
             if not all([name, emergency_contact, condition]):
