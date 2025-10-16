@@ -54,41 +54,38 @@ def patient_profile_form():
 
 
 
-def main():
-
-    if not st.user.is_logged_in:
-        st.title("Patient Log")
-        st.image(IMAGE_ADDRESS)
-        if st.sidebar.button("Log in with Google", type="primary", icon=":material/login:"):
-            st.login()
-
-    else:
-        if st.sidebar.button("Log out", type="secondary", icon=":material/logout:"):
-            st.logout()
 
 
-    client = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
-    if not client:
-        st.error("Unable to save profile: Supabase not configured")
-        return False
+if not st.user.is_logged_in:
+    st.title("Patient Log")
+    st.image(IMAGE_ADDRESS)
+    if st.sidebar.button("Log in with Google", type="primary", icon=":material/login:"):
+        st.login()
 
-    st.session_state.user_id = st.user.sub 
-
-    result = download_file_from_supabase(
-        supabase=client,
-        bucket_name=BUCKET_NAME,
-        user_id=st.session_state.user_id,
-        file_name="patient_profile.json",
-        file_type="json"
-    )
-    
-    if result is None:
-        patient_profile_form()
-    else:
-        st.success("Thank you")
+else:
+    if st.sidebar.button("Log out", type="secondary", icon=":material/logout:"):
+        st.logout()
 
 
+client = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
+if not client:
+    st.error("Unable to save profile: Supabase not configured")
+    return False
+
+st.session_state.user_id = st.user.sub 
+
+result = download_file_from_supabase(
+    supabase=client,
+    bucket_name=BUCKET_NAME,
+    user_id=st.session_state.user_id,
+    file_name="patient_profile.json",
+    file_type="json"
+)
+
+if result is None:
+    patient_profile_form()
+else:
+    st.success("Thank you")
 
 
-if __name__ == "__main__":
-    main()
+
