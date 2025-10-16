@@ -69,8 +69,10 @@ def patient_profile_form():
 
                 if record_profile_info(client, profile):
                     st.success("Profile saved successfully!")
+                    return True
                 else:
                     st.error("Failed to save profile. Please try again.")
+                    return False
 
                
 
@@ -93,7 +95,12 @@ if not client:
 
 
 
-patient_profile_form()
+profile_upload = patient_profile_form()
+if profile_upload:
+    if not "profile_login" in st.session_state:
+        st.session_state.profile_login = True
+
+
 
 
 
