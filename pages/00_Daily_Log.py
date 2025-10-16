@@ -17,53 +17,53 @@ if not st.user.is_logged_in:
     st.error("Please log in to access the App")
     st.stop()
     
-# Set page config
-st.set_page_config(
-    page_title="Daily Log",
-    page_icon="📝"
-)
+# # Set page config
+# st.set_page_config(
+#     page_title="Daily Log",
+#     page_icon="📝"
+# )
 
-def load_daily_logs():
-    if not supabase:
-        return pd.DataFrame(columns=[
-            'date', 'time', 'symptoms', 'other_symptoms', 'medication_taken',
-            'medication_name', 'doctor_visited', 'doctor_type', 'doctor_notes',
-            'symptom_severity', 'sleep_quality', 'physical_activity', 'mood'
-        ])
+# def load_daily_logs():
+#     if not supabase:
+#         return pd.DataFrame(columns=[
+#             'date', 'time', 'symptoms', 'other_symptoms', 'medication_taken',
+#             'medication_name', 'doctor_visited', 'doctor_type', 'doctor_notes',
+#             'symptom_severity', 'sleep_quality', 'physical_activity', 'mood'
+#         ])
 
-    user_id=44215457
-    logs = None
+#     user_id=44215457
+#     logs = None
 
-    # user_id = get_user_id()
-    # logs = load_logs_from_supabase(supabase, BUCKET_NAME, user_id)
+#     # user_id = get_user_id()
+#     # logs = load_logs_from_supabase(supabase, BUCKET_NAME, user_id)
     
-    if logs is None or logs.empty:
-        return pd.DataFrame(columns=[
-            'date', 'time', 'symptoms', 'other_symptoms', 'medication_taken',
-            'medication_name', 'doctor_visited', 'doctor_type', 'doctor_notes',
-            'symptom_severity', 'sleep_quality', 'physical_activity', 'mood'
-        ])
+#     if logs is None or logs.empty:
+#         return pd.DataFrame(columns=[
+#             'date', 'time', 'symptoms', 'other_symptoms', 'medication_taken',
+#             'medication_name', 'doctor_visited', 'doctor_type', 'doctor_notes',
+#             'symptom_severity', 'sleep_quality', 'physical_activity', 'mood'
+#         ])
     
-    if 'date' in logs.columns:
-        logs['date'] = pd.to_datetime(logs['date'], errors='coerce')
-    return logs
+#     if 'date' in logs.columns:
+#         logs['date'] = pd.to_datetime(logs['date'], errors='coerce')
+#     return logs
 
-def save_daily_log(log_entry):
-    if not supabase:
-        st.error("Unable to save log: Supabase not configured")
-        return False
+# def save_daily_log(log_entry):
+#     if not supabase:
+#         st.error("Unable to save log: Supabase not configured")
+#         return False
     
-    user_id = get_user_id()
-    return save_log_to_supabase(supabase, BUCKET_NAME, user_id, log_entry)
+#     user_id = get_user_id()
+#     return save_log_to_supabase(supabase, BUCKET_NAME, user_id, log_entry)
 
 
 # App
 st.title("📝 Daily Log Entry")
 
 # Load profile to get user's name
-profile = load_patient_profile()
-if not profile:
-    st.error("Please complete your profile first.")
+# profile = load_patient_profile()
+# if not profile:
+#     st.error("Please complete your profile first.")
     
     
 st.write(f"Welcome back, {profile.get('name', 'there')}! Let's log your day.")
