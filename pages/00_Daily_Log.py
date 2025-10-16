@@ -4,14 +4,14 @@ from datetime import datetime, date
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils import load_daily_logs, save_daily_log
+from utils import load_daily_logs, save_daily_log,SYMPTOMS, DOCTOR_TYPES
 
-
+from login import BUCKET_NAME, client
 # Import shared variables and functions from 00_User_Info
-from pages.User_Info import (
-    supabase, BUCKET_NAME, SYMPTOMS, DOCTOR_TYPES,
-    get_user_id, load_patient_profile
-)
+# from pages.User_Info import (
+#     supabase, BUCKET_NAME, SYMPTOMS, DOCTOR_TYPES,
+#     get_user_id, load_patient_profile
+# )
 
 if not st.user.is_logged_in:
     st.error("Please log in to access the App")

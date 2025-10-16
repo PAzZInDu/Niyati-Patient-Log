@@ -6,6 +6,21 @@ import pandas as pd
 from supabase import create_client, Client
 from typing import Optional, Dict, Any, Union
 
+
+# Common symptoms list
+SYMPTOMS = [
+    "Headache", "Dizziness", "Nausea", "Fatigue", "Blurred vision",
+    "Trouble concentrating", "Trouble sleeping", "Irritability",
+    "Sensitivity to light", "Sensitivity to noise", "Memory problems"
+]
+
+# Doctor types
+DOCTOR_TYPES = [
+    "Neurologist", "Physiotherapist", "Psychologist", 
+    "General Practitioner", "Other"
+]
+
+
 # Initialize Supabase client
 def get_supabase_client(url: str, key: str) -> Client:
     """Initialize and return Supabase client."""
