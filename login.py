@@ -9,12 +9,12 @@ IMAGE_ADDRESS = "https://www.shutterstock.com/image-photo/doctor-healthcare-medi
 BUCKET_NAME = st.secrets.get("SUPABASE_BUCKET")
 
 
-def save_patient_profile(profile, user_id):
+# def save_patient_profile(profile, user_id):
     
-    success = save_profile_to_supabase(client, BUCKET_NAME, user_id, profile)
-    if success:
-        st.session_state.profile_exists = True
-    return success
+#     success = save_profile_to_supabase(client, BUCKET_NAME, user_id, profile)
+#     if success:
+#         st.session_state.profile_exists = True
+#     return success
 
 
 def patient_profile_form():
@@ -43,10 +43,19 @@ def patient_profile_form():
                     "last_updated":  datetime.now().isoformat()
                     
                 }
-                # if save_patient_profile(profile, user_id):
-                #     st.success("Profile saved successfully!")
-                # else:
-                #     st.error("Failed to save profile. Please try again.")
+
+                if upload_file_to_supabase(
+                    supabase = client,
+                    bucket_name=BUCKET_NAME,
+                    user_id=user_id,
+                    file_name = "user_profile",
+                    file_content = profile,
+                    content_type: str = "application/json"
+                ):
+
+                    st.success("Profile saved successfully!")
+                else:
+                    st.error("Failed to save profile. Please try again.")
 
 
 
