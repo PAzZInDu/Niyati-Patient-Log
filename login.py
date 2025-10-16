@@ -47,6 +47,7 @@ def patient_profile_form():
     st.write("Please fill in your basic information.")
     
     with st.form("profile_form"):
+        id = st.text_input("Enter Your ID")
         name = st.text_input("Full Name")
         dob = st.date_input("Date of Birth", max_value=date.today())
         emergency_contact = st.text_input("Emergency Contact Number")
@@ -59,7 +60,7 @@ def patient_profile_form():
                 st.error("Please fill in all required fields.")
             else:
                 profile = {
-                    "patient_id": user_id,
+                    "patient_id": id,
                     "name": name,
                     "dob": dob.isoformat(),
                     "emergency_contact": emergency_contact,
