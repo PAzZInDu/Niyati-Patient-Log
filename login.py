@@ -1,7 +1,7 @@
 import streamlit as st
 import authlib
 from supabase import Client, create_client
-from utils import download_file_from_supabase
+from utils import download_file_from_supabase, upload_file_to_supabase
 from datetime import datetime, date
 
 
