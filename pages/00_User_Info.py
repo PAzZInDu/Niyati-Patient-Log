@@ -97,7 +97,8 @@ def patient_profile_form():
                     "condition": condition,
                     "diagnosis_date": diagnosis_date.isoformat(),
                     "medications": [],
-                    "last_updated": datetime.now(datetime.timezone.utc).isoformat()
+                    "last_updated":  datetime.now().isoformat()
+                    
                 }
                 if save_patient_profile(profile):
                     st.success("Profile saved successfully!")
