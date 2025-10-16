@@ -84,6 +84,8 @@ def patient_profile_form():
 if not st.user.is_logged_in:
     st.title("Patient Log")
     st.image(IMAGE_ADDRESS)
+    if not "profile_login" in st.session_state:
+        st.session_state.profile_login = False
     if st.sidebar.button("Log in with Google", type="primary", icon=":material/login:"):
         st.login()
 
