@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, date
 import json
 import pandas as pd
 from supabase import create_client, Client
