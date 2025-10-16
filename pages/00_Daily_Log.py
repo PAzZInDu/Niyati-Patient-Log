@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils import load_daily_logs, save_daily_log,SYMPTOMS, DOCTOR_TYPES
 
-from login import BUCKET_NAME, client, id
+from login import BUCKET_NAME, client
 # Import shared variables and functions from 00_User_Info
 # from pages.User_Info import (
 #     supabase, BUCKET_NAME, SYMPTOMS, DOCTOR_TYPES,
@@ -16,7 +16,10 @@ from login import BUCKET_NAME, client, id
 if not st.user.is_logged_in:
     st.error("Please log in to access the App")
     st.stop()
-    
+
+if not st.session_state.profile_login:
+    st.error("Please log in to access the App")
+    st.stop()
 # # Set page config
 # st.set_page_config(
 #     page_title="Daily Log",
