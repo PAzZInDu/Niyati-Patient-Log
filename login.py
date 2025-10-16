@@ -72,12 +72,12 @@ def main():
         st.error("Unable to save profile: Supabase not configured")
         return False
 
-    user_id = st.user.sub
+    st.session_state.user_id = st.user.sub 
 
     result = download_file_from_supabase(
         supabase=client,
         bucket_name=BUCKET_NAME,
-        user_id=user_id,
+        user_id=st.session_state.user_id,
         file_name="patient_profile.json",
         file_type="json"
     )
