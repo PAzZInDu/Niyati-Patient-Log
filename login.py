@@ -76,7 +76,7 @@ def main():
 
     result = download_file_from_supabase(
         supabase=client,
-        bucket_name=bucket_name,
+        bucket_name=BUCKET_NAME,
         user_id=user_id,
         file_name="patient_profile.json",
         file_type="json"
