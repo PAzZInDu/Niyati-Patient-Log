@@ -64,7 +64,8 @@ if not st.user.is_logged_in:
         st.login()
 
 else:
-    st.session_state.user_id = st.user.sub 
+    if not st.session_state.user_id:
+        st.session_state.user_id = st.user.sub 
     if st.sidebar.button("Log out", type="secondary", icon=":material/logout:"):
         st.logout()
 
