@@ -78,6 +78,8 @@ def main():
     if not client:
         st.error("Unable to save profile: Supabase not configured")
         return False
+    else:
+        st.success(f"Success =  {st.user.sub}")
 
     user_id = st.user.sub
 
