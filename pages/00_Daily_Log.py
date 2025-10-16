@@ -165,8 +165,8 @@ with st.form("daily_log_form"):
         
 
         if "entries" not in st.session_state.patient_data:
-                st.session_state.patient_data["entries"] = []
+            st.session_state.patient_data["entries"] = []
             
-            st.session_state.patient_data["entries"].append(entry)
-            save_patient_data()
-            st.success("Daily log saved successfully!")
+        st.session_state.patient_data["entries"].append(entry)
+        #save_patient_data()
+        st.success("Daily log saved successfully!")
