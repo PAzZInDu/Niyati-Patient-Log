@@ -43,10 +43,10 @@ def patient_profile_form():
                     "last_updated":  datetime.now().isoformat()
                     
                 }
-                if save_patient_profile(profile, user_id):
-                    st.success("Profile saved successfully!")
-                else:
-                    st.error("Failed to save profile. Please try again.")
+                # if save_patient_profile(profile, user_id):
+                #     st.success("Profile saved successfully!")
+                # else:
+                #     st.error("Failed to save profile. Please try again.")
 
 
 
