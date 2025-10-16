@@ -45,7 +45,6 @@ def patient_profile_form():
                 }
                 if save_patient_profile(profile, user_id):
                     st.success("Profile saved successfully!")
-                    st.rerun()
                 else:
                     st.error("Failed to save profile. Please try again.")
 
