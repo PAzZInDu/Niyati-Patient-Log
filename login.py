@@ -64,7 +64,6 @@ if not st.user.is_logged_in:
         st.login()
 
 else:
-    user_id = st.user.sub 
     if st.sidebar.button("Log out", type="secondary", icon=":material/logout:"):
         st.logout()
 
@@ -80,7 +79,7 @@ if not client:
 result = download_file_from_supabase(
     supabase=client,
     bucket_name=BUCKET_NAME,
-    user_id=user_id,
+    user_id=44215457,
     file_name="patient_profile.json",
     file_type="json"
 )
