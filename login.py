@@ -73,7 +73,8 @@ if not client:
     st.error("Unable to save profile: Supabase not configured")
     
 st.write(f"{st.user.sub}")
-#st.session_state.user_id = st.user.sub 
+st.session_state.user_id = st.user.sub 
+st.write(f"{st.session_state.user_id}")
 
 result = download_file_from_supabase(
     supabase=client,
