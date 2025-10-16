@@ -163,7 +163,10 @@ with st.form("daily_log_form"):
             'logged_at': datetime.utcnow().isoformat()
         }
         
-        if save_daily_log(log_entry):
+
+        if "entries" not in st.session_state.patient_data:
+                st.session_state.patient_data["entries"] = []
+            
+            st.session_state.patient_data["entries"].append(entry)
+            save_patient_data()
             st.success("Daily log saved successfully!")
-        else:
-            st.error("Failed to save daily log. Please try again.")
