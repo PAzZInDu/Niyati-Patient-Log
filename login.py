@@ -49,13 +49,15 @@ def patient_profile_form():
         condition = st.text_input("Diagnosed Condition")
         diagnosis_date = st.date_input("Date of Diagnosis/Incident", max_value=date.today())
         
+        if not "id" in st.session_state:
+            st.session_state.id = id
         submitted = st.form_submit_button("Save Profile")
         if submitted:
             if not all([name, emergency_contact, condition]):
                 st.error("Please fill in all required fields.")
             else:
                 profile = {
-                    "patient_id": id,
+                    "patient_id": st.session_state['id'],
                     "name": name,
                     "dob": dob.isoformat(),
                     "emergency_contact": emergency_contact,

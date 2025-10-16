@@ -7,33 +7,19 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils import load_daily_logs
 
 
-# Import shared variables and functions from 00_User_Info
-from pages.User_Info import (
-    supabase, BUCKET_NAME, get_user_id, load_patient_profile
-)
 
-if not st.user.is_logged_in:
-    st.error("Please log in to access the App")
-    st.stop()
 
-# Set page config
-st.set_page_config(
-    page_title="Recovery Dashboard",
-    page_icon="📊"
-)
+
 
 
 st.title("📊 Recovery Dashboard")
 
-# Load profile to check if it exists
-profile = load_patient_profile()
-if not profile:
-    st.error("Please complete your profile first.")
+
     
 
 # Load logs
-user_id = get_user_id()
-logs = load_logs_from_supabase(supabase, BUCKET_NAME, user_id)
+
+logs = None
 
 if logs is None or logs.empty:
     st.info("No logs available yet. Please complete a daily log entry first.")
