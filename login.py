@@ -59,7 +59,7 @@ def patient_profile_form():
                 st.error("Please fill in all required fields.")
             else:
                 profile = {
-                    "patient_id": user_id
+                    "patient_id": user_id,
                     "name": name,
                     "dob": dob.isoformat(),
                     "emergency_contact": emergency_contact,
