@@ -50,7 +50,6 @@ def patient_profile_form():
                     user_id=user_id,
                     file_name = "user_profile",
                     file_content = profile,
-                    content_type: str = "application/json"
                 ):
 
                     st.success("Profile saved successfully!")
