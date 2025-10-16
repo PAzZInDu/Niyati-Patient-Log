@@ -16,6 +16,31 @@ BUCKET_NAME = st.secrets.get("SUPABASE_BUCKET")
 #         st.session_state.profile_exists = True
 #     return success
 
+def record_profile_info(client: Client, profile: dict) -> bool:
+    # Map profile keys to your table columns
+    payload = {
+        "patient_id": profile.get("patient_id"),
+        "patient_name": profile.get("name"),
+        "dob": profile.get("dob"),
+        "contact_num": profile.get("emergency_contact"),
+        "diagnosis": profile.get("condition"),
+        "date_of_diagnosis": profile.get("diagnosis_date")
+    }
+    try:
+        response = client.table("ProfileData").insert(payload).execute()
+    except Exception as exc:
+        print(f"Storing logo metadata failed: {exc}")
+        return False
+
+    error = getattr(response, "error", None)
+    if error:
+        message = getattr(error, "message", str(error))
+        print(f"Storing logo metadata failed: {message}")
+        return False
+
+    return True
+
+
 
 def patient_profile_form():
     st.title("👤 Patient Profile")
@@ -34,6 +59,7 @@ def patient_profile_form():
                 st.error("Please fill in all required fields.")
             else:
                 profile = {
+                    "patient_id": user_id
                     "name": name,
                     "dob": dob.isoformat(),
                     "emergency_contact": emergency_contact,
@@ -44,24 +70,15 @@ def patient_profile_form():
                     
                 }
 
-                # if upload_file_to_supabase(
-                #     supabase = client,
-                #     bucket_name=BUCKET_NAME,
-                #     user_id=user_id,
-                #     file_name = "user_profile",
-                #     file_content = profile,
-                # ):
 
-                #     st.success("Profile saved successfully!")
-                # else:
-                #     st.error("Failed to save profile. Please try again.")
+                success = record_logo_entry(client, profile)
 
+                if record_logo_entry(client, profile):
+                    st.success("Profile saved successfully!")
+                else:
+                    st.error("Failed to save profile. Please try again.")
 
-
-
-
-
-
+               
 
 
 if not st.user.is_logged_in:
@@ -83,18 +100,11 @@ if not client:
 # st.session_state.user_id = st.user.sub 
 user_id=44215457
 
-result = download_file_from_supabase(
-    supabase=client,
-    bucket_name=BUCKET_NAME,
-    user_id=user_id,
-    file_name="patient_profile.json",
-    file_type="json"
-)
-
-if result is None:
-    patient_profile_form()
-else:
-    st.success("Thank you")
+patient_profile_form()
+# if result is None:
+#     patient_profile_form()
+# else:
+#     st.success("Thank you")
 
 
 
