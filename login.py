@@ -71,13 +71,13 @@ client = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 if not client:
     st.error("Unable to save profile: Supabase not configured")
     
-
-st.session_state.user_id = st.user.sub 
+st.write("st.user.sub ")
+#st.session_state.user_id = st.user.sub 
 
 result = download_file_from_supabase(
     supabase=client,
     bucket_name=BUCKET_NAME,
-    user_id=st.session_state.user_id,
+    user_id=114545,
     file_name="patient_profile.json",
     file_type="json"
 )
