@@ -73,12 +73,12 @@ if not client:
     
 
 # st.session_state.user_id = st.user.sub 
-
+user_id=44215457
 
 result = download_file_from_supabase(
     supabase=client,
     bucket_name=BUCKET_NAME,
-    user_id=44215457,
+    user_id=user_id,
     file_name="patient_profile.json",
     file_type="json"
 )
