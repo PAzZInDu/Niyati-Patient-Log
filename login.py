@@ -11,7 +11,7 @@ BUCKET_NAME = st.secrets.get("SUPABASE_BUCKET")
 
 def save_patient_profile(profile, user_id):
     
-    success = save_profile_to_supabase(supabase, BUCKET_NAME, user_id, profile)
+    success = save_profile_to_supabase(client, BUCKET_NAME, user_id, profile)
     if success:
         st.session_state.profile_exists = True
     return success
@@ -43,7 +43,7 @@ def patient_profile_form():
                     "last_updated":  datetime.now().isoformat()
                     
                 }
-                if save_patient_profile(profile):
+                if save_patient_profile(profile, user_id):
                     st.success("Profile saved successfully!")
                     st.rerun()
                 else:
