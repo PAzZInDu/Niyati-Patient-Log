@@ -71,9 +71,7 @@ def patient_profile_form():
                 }
 
 
-                success = record_logo_entry(client, profile)
-
-                if record_logo_entry(client, profile):
+                if record_profile_info(client, profile):
                     st.success("Profile saved successfully!")
                 else:
                     st.error("Failed to save profile. Please try again.")
