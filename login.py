@@ -44,17 +44,17 @@ def patient_profile_form():
                     
                 }
 
-                if upload_file_to_supabase(
-                    supabase = client,
-                    bucket_name=BUCKET_NAME,
-                    user_id=user_id,
-                    file_name = "user_profile",
-                    file_content = profile,
-                ):
+                # if upload_file_to_supabase(
+                #     supabase = client,
+                #     bucket_name=BUCKET_NAME,
+                #     user_id=user_id,
+                #     file_name = "user_profile",
+                #     file_content = profile,
+                # ):
 
-                    st.success("Profile saved successfully!")
-                else:
-                    st.error("Failed to save profile. Please try again.")
+                #     st.success("Profile saved successfully!")
+                # else:
+                #     st.error("Failed to save profile. Please try again.")
 
 
 

@@ -21,6 +21,16 @@ DOCTOR_TYPES = [
 ]
 
 
+def upload_file(client: Client, profile, user_id: str) -> Optional[str]:
+    file_data = json.dumps(profile, indent=2).encode('utf-8')
+    storage_path = f"{user_id}/{"User_info.json"}"
+    try:
+        client.storage.from_(BUCKET_NAME).upload(path=storage_path,file=file_data, {"content-type": "application/json"})
+        return storage_path
+    except Exception as exc:
+        st.error(f"Upload failed: {exc}")
+        return None
+
 # Initialize Supabase client
 def get_supabase_client(url: str, key: str) -> Client:
     """Initialize and return Supabase client."""
