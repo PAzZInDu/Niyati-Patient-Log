@@ -64,6 +64,7 @@ if not st.user.is_logged_in:
         st.login()
 
 else:
+    st.session_state.user_id = st.user.sub 
     if st.sidebar.button("Log out", type="secondary", icon=":material/logout:"):
         st.logout()
 
@@ -73,7 +74,7 @@ if not client:
     st.error("Unable to save profile: Supabase not configured")
     
 
-st.session_state.user_id = st.user.sub 
+# st.session_state.user_id = st.user.sub 
 
 
 result = download_file_from_supabase(
