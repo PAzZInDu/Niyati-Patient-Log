@@ -9,12 +9,7 @@ IMAGE_ADDRESS = "https://www.shutterstock.com/image-photo/doctor-healthcare-medi
 BUCKET_NAME = st.secrets.get("SUPABASE_BUCKET")
 
 
-# def save_patient_profile(profile, user_id):
-    
-#     success = save_profile_to_supabase(client, BUCKET_NAME, user_id, profile)
-#     if success:
-#         st.session_state.profile_exists = True
-#     return success
+
 
 def record_profile_info(client: Client, profile: dict) -> bool:
     # Map profile keys to your table columns
@@ -96,14 +91,10 @@ if not client:
     st.error("Unable to save profile: Supabase not configured")
     
 
-# st.session_state.user_id = st.user.sub 
-user_id=44215457
+
 
 patient_profile_form()
-# if result is None:
-#     patient_profile_form()
-# else:
-#     st.success("Thank you")
+
 
 
 
