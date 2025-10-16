@@ -66,7 +66,7 @@ st.title("📝 Daily Log Entry")
 #     st.error("Please complete your profile first.")
     
     
-st.write(f"Welcome back, {profile.get('name', 'there')}! Let's log your day.")
+# st.write(f"Welcome back, {profile.get('name', 'there')}! Let's log your day.")
 
 with st.form("daily_log_form"):
     # Date and Time
