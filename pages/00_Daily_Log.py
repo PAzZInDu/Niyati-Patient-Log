@@ -30,9 +30,12 @@ def load_daily_logs():
             'medication_name', 'doctor_visited', 'doctor_type', 'doctor_notes',
             'symptom_severity', 'sleep_quality', 'physical_activity', 'mood'
         ])
-    
-    user_id = get_user_id()
-    logs = load_logs_from_supabase(supabase, BUCKET_NAME, user_id)
+
+    user_id=44215457
+    logs = None
+
+    # user_id = get_user_id()
+    # logs = load_logs_from_supabase(supabase, BUCKET_NAME, user_id)
     
     if logs is None or logs.empty:
         return pd.DataFrame(columns=[
