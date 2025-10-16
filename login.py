@@ -70,7 +70,7 @@ else:
 client = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 if not client:
     st.error("Unable to save profile: Supabase not configured")
-    return False
+    
 
 st.session_state.user_id = st.user.sub 
 
