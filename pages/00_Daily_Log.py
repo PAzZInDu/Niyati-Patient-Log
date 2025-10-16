@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils import load_daily_logs, save_daily_log,SYMPTOMS, DOCTOR_TYPES
 
-from login import BUCKET_NAME, client
+from login import BUCKET_NAME, client, id
 # Import shared variables and functions from 00_User_Info
 # from pages.User_Info import (
 #     supabase, BUCKET_NAME, SYMPTOMS, DOCTOR_TYPES,
@@ -163,10 +163,15 @@ with st.form("daily_log_form"):
             'logged_at': datetime.utcnow().isoformat()
         }
         
+        uploaded = save_daily_log(supabase=client, bucket_name=BUCKET_NAME, user_id=id, log_data=log_entry)
+        if uploaded:
+            st.success("Done")
+        else:
+            st.error("Not done")
 
-        if "entries" not in st.session_state:
-            st.session_state["entries"] = []
+        # if "entries" not in st.session_state:
+        #     st.session_state["entries"] = []
             
-        st.session_state["entries"].append(log_entry)
-        #save_patient_data()
-        st.success("Daily log saved successfully!")
+        # st.session_state["entries"].append(log_entry)
+        # #save_patient_data()
+        # st.success("Daily log saved successfully!")
