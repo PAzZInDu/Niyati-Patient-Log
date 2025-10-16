@@ -93,14 +93,14 @@ with st.form("daily_log_form"):
     )
     
     medication_name = ""
-    if med_taken == "Yes":
-        if profile.get('medications'):
-            medication_name = st.selectbox(
-                "Which medication?",
-                profile['medications']
-            )
-        else:
-            medication_name = st.text_input("Enter medication name")
+    # if med_taken == "Yes":
+    #     if profile.get('medications'):
+    #         medication_name = st.selectbox(
+    #             "Which medication?",
+    #             profile['medications']
+    #         )
+    #     else:
+    #         medication_name = st.text_input("Enter medication name")
     
     # Doctor Visit
     st.subheader("👨‍⚕️ Doctor / Treatment")
