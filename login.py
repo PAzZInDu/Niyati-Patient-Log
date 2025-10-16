@@ -4,6 +4,8 @@ from supabase import Client, create_client
 
 
 IMAGE_ADDRESS = "https://www.shutterstock.com/image-photo/doctor-healthcare-medicine-patient-talking-600nw-2191880035.jpg"
+BUCKET_NAME = st.secrets.get("SUPABASE_BUCKET")
+
 
 def save_patient_profile(profile, user_id):
     
@@ -46,17 +48,7 @@ def patient_profile_form():
                     st.error("Failed to save profile. Please try again.")
 
 
-# def google_log_in():
-#     if not st.user.is_logged_in:
-#         st.title("Patient Log")
-#         st.image(IMAGE_ADDRESS)
-#         if st.sidebar.button("Log in with Google", type="primary", icon=":material/login:"):
-#             st.login()
 
-#     else:
-#         st.success("Please open the app")
-#         if st.sidebar.button("Log out", type="secondary", icon=":material/logout:"):
-#             st.logout()
 
 
 
@@ -78,10 +70,23 @@ def main():
     if not client:
         st.error("Unable to save profile: Supabase not configured")
         return False
-    else:
-        st.success(f"Success =  {st.user.sub}")
 
     user_id = st.user.sub
+
+    result = download_file_from_supabase(
+        supabase=client,
+        bucket_name=bucket_name,
+        user_id=user_id,
+        file_name="patient_profile.json",
+        file_type="json"
+    )
+    
+    if result is None:
+        patient_profile_form()
+    else:
+        st.success("Thank you")
+
+
 
 
 if __name__ == "__main__":
