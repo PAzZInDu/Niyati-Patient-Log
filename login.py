@@ -50,6 +50,10 @@ def patient_profile_form():
         diagnosis_date = st.date_input("Date of Diagnosis/Incident", max_value=date.today())
         
         submitted = st.form_submit_button("Save Profile")
+
+        if id:
+            session.state.ID = id
+
         if submitted:
             if not all([name, emergency_contact, condition]):
                 st.error("Please fill in all required fields.")
@@ -87,6 +91,8 @@ else:
     if st.sidebar.button("Log out", type="secondary", icon=":material/logout:"):
         st.logout()
 
+if not "ID" in st.session_state:
+    st.session_state.ID = ""
 
 client = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 if not client:
