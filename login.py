@@ -91,14 +91,14 @@ else:
 
             # Optional: check if Supabase returned data
             if response.data:
-                print(f"✅ Successfully inserted record for ID: {profile.get('patient_id')}")
+                print(f"✅ Successfully inserted record for ID: {st.session_state['patient_id']}")
                 
             else:
                 print("⚠️ Insert executed but returned no data.")
                 
 
         except Exception as e:
-            print(f"❌ Insert failed for ID: {profile.get('patient_id')} — {e}")
+            print(f"❌ Insert failed for ID: {st.session_state['patient_id']} — {e}")
             
         complete = st.button("Complete")
         if complete:
