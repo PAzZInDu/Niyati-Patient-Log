@@ -70,7 +70,7 @@ else:
         st.error("Supabase not configured")
     
     # Check for the record existance
-    existing = client.table(st.secrets["SUPABASE_TABLE"]).select("*").eq("patient_id", st.session_state.patient_id.execute())
+    existing = client.table(st.secrets["SUPABASE_TABLE"]).select("*").eq("patient_id", st.session_state['patient_id']).execute()
 
     if existing.data:  # means record already exists
         st.success(f"ID: {profile['patient_id']} already exists.")
