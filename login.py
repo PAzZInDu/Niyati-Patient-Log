@@ -92,10 +92,10 @@ else:
             # Optional: check if Supabase returned data
             if response.data:
                 print(f"✅ Successfully inserted record for ID: {profile.get('patient_id')}")
-                return response.data
+                
             else:
                 print("⚠️ Insert executed but returned no data.")
-                return None
+                
 
         except Exception as e:
             print(f"❌ Insert failed for ID: {profile.get('patient_id')} — {e}")
