@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-import plotly
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -21,7 +20,8 @@ log_info = client.table(st.secrets["SUPABASE_PATIENT_LOG_TABLE"]).select("*").eq
 
 
 if not log_info.data:
-    st.info("All are ok")
+    st.info("No logs available yet. Please complete a daily log entry first.")
+    st.stop()
 
 else:
     logs = pd.DataFrame(log_info.data)
