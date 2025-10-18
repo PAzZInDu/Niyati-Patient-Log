@@ -8,11 +8,13 @@ from app_utils import create_supabase_client
 
 
 
-st.title("📊 Recovery Dashboard")
-
 if not st.user.is_logged_in:
     st.error("Please log in to access the App")
     st.stop()
+
+
+st.title("📊 Recovery Dashboard")
+
 
 # Load logs
 client = create_supabase_client()
