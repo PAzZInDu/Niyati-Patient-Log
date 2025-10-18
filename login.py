@@ -64,7 +64,7 @@ else:
 
     if existing.data:
         st.session_state.profile_exist = True  # means record already exists
-        st.success(f"Welcome Back {st.user.name}")
+        st.subheader(f"Welcome Back {st.user.name}")
         
         st.info("Please Update info or go to Daily Log")
         update = st.button("Update Info")
