@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from app_utils import create_client
+from app_utils import create_supabase_client
 
 
 
@@ -15,7 +15,7 @@ if not st.user.is_logged_in:
     st.stop()
 
 # Load logs
-client = create_client()
+client = create_supabase_client()
 logs = client.table(st.secrets["SUPABASE_PATIENT_LOG_TABLE"]).select("*").eq("patient_id", st.session_state['patient_id']).execute()
 
 
