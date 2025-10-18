@@ -50,9 +50,6 @@ else:
     if not "patient_id" in st.session_state:
         st.session_state.patient_id = st.user.sub
 
-    if not "profile_created" in st.session_state:
-        st.session_state.profile_created = False
-
     client = create_supabase_client()
     if not client:
         st.error("Supabase not configured")
@@ -61,7 +58,6 @@ else:
     existing = client.table(st.secrets["SUPABASE_TABLE"]).select("*").eq("patient_id", st.session_state['patient_id']).execute()
 
     if existing.data:
-        st.session_state.profile_created = True
         st.subheader(f"Welcome {st.user.name}")
         
         st.info("Proceed to Daily Log")
