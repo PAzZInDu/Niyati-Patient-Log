@@ -82,6 +82,7 @@ else:
             # Optional: check if Supabase returned data
             if response.data:
                 print(f"✅ Successfully inserted record for ID: {st.session_state['patient_id']}")
+                st.rerun()
                 
             else:
                 print("⚠️ Insert executed but returned no data.")
