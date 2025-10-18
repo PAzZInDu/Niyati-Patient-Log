@@ -64,6 +64,9 @@ if not st.user.is_logged_in:
 else:
     if not "patient_id" in st.session_state:
         st.session_state.patient_id = st.user.sub
+    
+    if not "profile_exist" in st.session_state:
+        st.session_state.profile_exist = False
 
     client = create_supabase_client()
     if not client:
@@ -72,14 +75,17 @@ else:
     # Check for the record existance
     existing = client.table(st.secrets["SUPABASE_TABLE"]).select("*").eq("patient_id", st.session_state['patient_id']).execute()
 
-    if existing.data:  # means record already exists
+    if existing.data:
+        st.session_state.profile_exist = True  # means record already exists
         st.success(f"ID: {st.session_state['patient_id']} already exists.")
         # You can optionally merge or update here if needed
         complete = st.button("Complete")
         update = st.button("Update Info")
 
         if update:
+            st.session_state.profile_exist = False
             profile = patient_profile_form(st.session_state["patient_id"])
+            
             if profile:
                 client.table(st.secrets["SUPABASE_TABLE"]).update(profile).eq("patient_id", st.session_state['patient_id']).execute()
                 st.success(f"ID: {st.session_state['patient_id']} updated.")
