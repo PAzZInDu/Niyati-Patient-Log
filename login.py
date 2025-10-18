@@ -85,7 +85,7 @@ else:
         if update:
             st.session_state.profile_exist = False
             profile = patient_profile_form(st.session_state["patient_id"])
-            
+
             if profile:
                 client.table(st.secrets["SUPABASE_TABLE"]).update(profile).eq("patient_id", st.session_state['patient_id']).execute()
                 st.success(f"ID: {st.session_state['patient_id']} updated.")
