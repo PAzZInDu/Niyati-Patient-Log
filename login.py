@@ -43,8 +43,6 @@ def patient_profile_form(patient_id):
 if not st.user.is_logged_in:
     st.title("Patient Log")
     st.image(IMAGE_ADDRESS)
-    if not "profile_login" in st.session_state:
-        st.session_state.profile_login = False
     if st.sidebar.button("Log in with Google", type="primary", icon=":material/login:"):
         st.login()
 
@@ -66,18 +64,18 @@ else:
         update = st.button("Update Info")
 
         if update:
-            profile = patient_profile_form(st.session_state["patient_id"])
+            updated_profile = patient_profile_form(st.session_state["patient_id"])
 
-            if profile:
-                client.table(st.secrets["SUPABASE_TABLE"]).update(profile).eq("patient_id", st.session_state['patient_id']).execute()
+            if updated_profile:
+                client.table(st.secrets["SUPABASE_TABLE"]).update(updated_profile).eq("patient_id", st.session_state['patient_id']).execute()
                 st.success(f"Profile updated. Please proceed tpo the Daily Log Entry")
                 
         
     else:
         # Insert new profile
-        profile = patient_profile_form(st.session_state["patient_id"])
+        new_profile = patient_profile_form(st.session_state["patient_id"])
         try:
-            response = client.table(st.secrets["SUPABASE_TABLE"]).insert(profile).execute()
+            response = client.table(st.secrets["SUPABASE_TABLE"]).insert(new_profile).execute()
 
             # Optional: check if Supabase returned data
             if response.data:
