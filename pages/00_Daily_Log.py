@@ -4,6 +4,7 @@ from datetime import datetime, date
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import uuid
 
 
 from app_utils import create_supabase_client
