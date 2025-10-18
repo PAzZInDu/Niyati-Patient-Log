@@ -1,19 +1,11 @@
 import streamlit as st
-import pandas as pd
 from datetime import datetime, date
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import uuid
-
-
 from app_utils import create_supabase_client
 
-# Import shared variables and functions from 00_User_Info
-# from pages.User_Info import (
-#     supabase, BUCKET_NAME, SYMPTOMS, DOCTOR_TYPES,
-#     get_user_id, load_patient_profile
-# )
 
 if not st.user.is_logged_in:
     st.error("Please log in to access the App")
@@ -43,14 +35,7 @@ mood_mapping = {
 # App
 st.title("📝 Daily Log Entry")
 
-# Load profile to get user's name
-# profile = load_patient_profile()
-# if not profile:
-#     st.error("Please complete your profile first.")
-    
-    
 st.write(f"Welcome! Let's log your day.")
-
 
 
 with st.form("daily_log_form"):
