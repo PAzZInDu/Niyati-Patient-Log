@@ -134,6 +134,6 @@ with st.form("daily_log_form"):
             'logged_at': datetime.utcnow().isoformat()
         }
 
-        return log_entry
+        
         
         
