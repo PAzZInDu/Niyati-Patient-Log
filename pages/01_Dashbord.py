@@ -25,7 +25,6 @@ if not log_info.data:
 
 else:
     logs = pd.DataFrame(log_info.data)
-    st.info("No logs available yet. Please complete a daily log entry first.")
     
 
     # Ensure date column is in datetime format
