@@ -19,7 +19,7 @@ client = create_supabase_client()
 logs = client.table(st.secrets["SUPABASE_PATIENT_LOG_TABLE"]).select("*").eq("patient_id", st.session_state['patient_id']).execute()
 
 
-if logs.data:
+if not logs.data:
     st.info("All are ok")
 
 else:
