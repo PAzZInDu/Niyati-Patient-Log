@@ -79,6 +79,7 @@ else:
         update = st.button("Update Info")
 
         if update:
+            profile = patient_profile_form(st.session_state["patient_id"])
             client.table(st.secrets["SUPABASE_TABLE"]).update(profile).eq("patient_id", st.session_state['patient_id']).execute()
             st.success(f"ID: {st.session_state['patient_id']} updated.")
         if complete:
