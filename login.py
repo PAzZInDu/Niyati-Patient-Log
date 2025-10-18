@@ -67,7 +67,8 @@ else:
             updated_profile = patient_profile_form(st.session_state["patient_id"])
 
             if updated_profile:
-                client.table(st.secrets["SUPABASE_TABLE"]).update(updated_profile).eq("patient_id", st.session_state['patient_id']).execute()
+                client.table(st.secrets["SUPABASE_TABLE"]).insert(updated_profile).execute()
+                #client.table(st.secrets["SUPABASE_TABLE"]).update(updated_profile).eq("patient_id", st.session_state['patient_id']).execute()
                 st.success(f"Profile updated. Please proceed tpo the Daily Log Entry")
                 
         
