@@ -31,7 +31,13 @@ DOCTOR_TYPES = [
     "General Practitioner", "Other"
 ]
 
-
+mood_mapping = {
+    "😀": 5,
+    "🙂": 4,
+    "😐": 3,
+    "🙁": 2,
+    "😢": 1
+}
 
 # App
 st.title("📝 Daily Log Entry")
@@ -43,6 +49,8 @@ st.title("📝 Daily Log Entry")
     
     
 st.write(f"Welcome! Let's log your day.")
+
+
 
 with st.form("daily_log_form"):
     # Date and Time
@@ -109,15 +117,18 @@ with st.form("daily_log_form"):
         horizontal=True
     )
     
-    mood = st.radio(
+    mood_choice = st.radio(
         "Overall feeling today:",
-        ["😀", "🙂", "😐", "🙁", "😢"],
+        list(mood_mapping.keys()),
         horizontal=True
     )
     
     submitted = st.form_submit_button("Save Daily Log")
+
     if submitted:
         log_entry = {
+            'token': str(uuid.uuid4()),
+            'patient_id': st.session_state['patient_id'],
             'date': log_date.isoformat(),
             'time': log_time.strftime("%H:%M"),
             'symptoms': ", ".join(selected_symptoms),
@@ -130,9 +141,22 @@ with st.form("daily_log_form"):
             'symptom_severity': symptom_severity,
             'sleep_quality': sleep_quality.split()[0],
             'physical_activity': physical_activity.split()[-1],
-            'mood': mood,
+            'mood': mood_mapping[mood_choice],
             'logged_at': datetime.utcnow().isoformat()
         }
+
+        client = create_supabase_client()
+
+        client.table(st.secrets["User_data_log"]).insert(log_entry).execute()
+        st.success("Your Information is submitted")
+
+
+
+
+
+
+
+
 
         
         
