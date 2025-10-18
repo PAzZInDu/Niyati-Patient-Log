@@ -26,14 +26,12 @@ if not log_info.data:
 else:
     logs = pd.DataFrame(log_info.data)
     
-
     # Ensure date column is in datetime format
     if 'date' in logs.columns:
         logs['date'] = pd.to_datetime(logs['date'], errors='coerce')
 
     # Remove any rows with invalid dates
     logs = logs.dropna(subset=['date'])
-
 
 
     # Summary stats
