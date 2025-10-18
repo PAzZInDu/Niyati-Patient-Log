@@ -148,7 +148,7 @@ with st.form("daily_log_form"):
 
         client = create_supabase_client()
 
-        client.table(st.secrets["User_data_log"]).insert(log_entry).execute()
+        client.table(st.secrets["SUPABASE_PATIENT_LOG_TABLE"]).insert(log_entry).execute()
         st.success("Your Information is submitted")
 
 
