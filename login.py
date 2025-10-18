@@ -100,9 +100,9 @@ else:
         except Exception as e:
             print(f"❌ Insert failed for ID: {st.session_state['patient_id']} — {e}")
             
-        complete = st.button("Complete")
-        if complete:
-            st.success("Go to the next page")
+        # complete = st.button("Complete")
+        # if complete:
+        #     st.success("Go to the next page")
         
 
     if st.sidebar.button("Log out", type="secondary", icon=":material/logout:"):
