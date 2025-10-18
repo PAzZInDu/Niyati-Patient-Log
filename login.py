@@ -69,7 +69,7 @@ else:
             if updated_profile:
                 client.table(st.secrets["SUPABASE_TABLE"]).update(updated_profile).eq("patient_id", st.session_state['patient_id']).execute()
                 st.success(f"Profile updated. Please proceed to the Daily Log Entry")
-                st.rerun()
+                st.write("DUMB")
         
     else:
         # Insert new profile
