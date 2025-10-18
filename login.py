@@ -1,8 +1,10 @@
 import streamlit as st
 import authlib
-from supabase import Client, create_client
 from utils import download_file_from_supabase, upload_file_to_supabase
 from datetime import datetime, date
+from app_utils import create_supabase_client
+
+
 
 
 IMAGE_ADDRESS = "https://www.shutterstock.com/image-photo/doctor-healthcare-medicine-patient-talking-600nw-2191880035.jpg"
@@ -11,38 +13,14 @@ BUCKET_NAME = st.secrets.get("SUPABASE_BUCKET")
 
 
 
-def record_profile_info(client: Client, profile: dict) -> bool:
-    # Map profile keys to your table columns
-    payload = {
-        "patient_id": profile.get("patient_id"),
-        "patient_name": profile.get("name"),
-        "dob": profile.get("dob"),
-        "contact_num": profile.get("emergency_contact"),
-        "diagnosis": profile.get("condition"),
-        "date_of_diagnosis": profile.get("diagnosis_date")
-    }
-    try:
-        response = client.table("ProfileData").insert(payload).execute()
-    except Exception as exc:
-        print(f"Storing logo metadata failed: {exc}")
-        return False
-
-    error = getattr(response, "error", None)
-    if error:
-        message = getattr(error, "message", str(error))
-        print(f"Storing logo metadata failed: {message}")
-        return False
-
-    return True
 
 
 
-def patient_profile_form():
+def patient_profile_form(patient_id):
     st.title("👤 Patient Profile")
     st.write("Please fill in your basic information.")
     
     with st.form("profile_form"):
-        id = st.text_input("Enter Your ID")
         name = st.text_input("Full Name")
         dob = st.date_input("Date of Birth", max_value=date.today())
         emergency_contact = st.text_input("Emergency Contact Number")
@@ -51,32 +29,26 @@ def patient_profile_form():
         
         submitted = st.form_submit_button("Save Profile")
 
-        if id:
-            st.session_state.ID = id
-
         if submitted:
             if not all([name, emergency_contact, condition]):
                 st.error("Please fill in all required fields.")
             else:
                 profile = {
-                    "patient_id": id,
-                    "name": name,
+                    "patient_id": patient_id,
+                    "patient_name": name,
                     "dob": dob.isoformat(),
                     "emergency_contact": emergency_contact,
                     "condition": condition,
-                    "diagnosis_date": diagnosis_date.isoformat(),
-                    "medications": [],
-                    "last_updated":  datetime.now().isoformat()
-                    
+                    "diagnosis_date": diagnosis_date.isoformat()
                 }
 
-
-                if record_profile_info(client, profile):
-                    st.success("Profile saved successfully!")
-                    return True
-                else:
-                    st.error("Failed to save profile. Please try again.")
-                    return False
+                return profile
+                # if record_profile_info(client, profile):
+                #     st.success("Profile saved successfully!")
+                #     return True
+                # else:
+                #     st.error("Failed to save profile. Please try again.")
+                #     return False
 
                
 
@@ -90,23 +62,57 @@ if not st.user.is_logged_in:
         st.login()
 
 else:
+    if not "patient_id" in st.session_state:
+        st.session_state.patient_id = st.user.sub
+
+    client = create_supabase_client()
+    if not client:
+        st.error("Supabase not configured")
+    
+    # Check for the record existance
+    existing = client.table(table_name).select("*").eq("patient_id", st.session_state.patient_id.execute()
+
+    if existing.data:  # means record already exists
+        st.success(f"ID: {profile['patient_id']} already exists.")
+        # You can optionally merge or update here if needed
+        complete = st.button("Complete")
+        update = st.button("Update Info")
+
+        if update:
+            client.table(table_name).update(profile).eq("patient_id", profile['patient_id']).execute()
+            st.success(f"ID: {profile['patient_id']} updated.")
+        if complete:
+            st.success("Go to the next page")
+    else:
+        # Insert new profile
+        profile = patient_profile_form(st.session_state["patient_id"])
+        try:
+            response = client.table(table_name).insert(profile).execute()
+
+            # Optional: check if Supabase returned data
+            if response.data:
+                print(f"✅ Successfully inserted record for ID: {profile.get('patient_id')}")
+                return response.data
+            else:
+                print("⚠️ Insert executed but returned no data.")
+                return None
+
+        except Exception as e:
+            print(f"❌ Insert failed for ID: {profile.get('patient_id')} — {e}")
+            
+        complete = st.button("Complete")
+        if complete:
+            st.success("Go to the next page")
+        
+
     if st.sidebar.button("Log out", type="secondary", icon=":material/logout:"):
         st.logout()
 
-if not "ID" in st.session_state:
-    st.session_state.ID = ""
-
-client = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
-if not client:
-    st.error("Unable to save profile: Supabase not configured")
     
 
 
 
-profile_upload = patient_profile_form()
-if profile_upload:
-    if not "profile_login" in st.session_state:
-        st.session_state.profile_login = True
+
 
 
 
