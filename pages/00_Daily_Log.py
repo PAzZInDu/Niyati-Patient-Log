@@ -140,7 +140,7 @@ with st.form("daily_log_form"):
             'doctor_type': doctor_type if doctor_visited == "Yes" else "",
             'doctor_notes': doctor_notes if doctor_visited == "Yes" else "",
             'symptom_severity': symptom_severity,
-            'sleep_quality': sleep_quality.split()[0],
+            'sleep_quality': sleep_quality.split()[1],
             'physical_activity': physical_activity.split()[-1],
             'mood': mood_mapping[mood_choice],
             'logged_at': datetime.utcnow().isoformat()
