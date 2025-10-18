@@ -77,6 +77,7 @@ else:
         new_profile = patient_profile_form(st.session_state["patient_id"])
         try:
             response = client.table(st.secrets["SUPABASE_TABLE"]).insert(new_profile).execute()
+            st.rerun()
 
             # Optional: check if Supabase returned data
             if response.data:
