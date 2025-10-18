@@ -70,7 +70,7 @@ else:
         st.error("Supabase not configured")
     
     # Check for the record existance
-    existing = client.table(table_name).select("*").eq("patient_id", st.session_state.patient_id.execute())
+    existing = client.table(st.secrets["SUPABASE_TABLE"]).select("*").eq("patient_id", st.session_state.patient_id.execute())
 
     if existing.data:  # means record already exists
         st.success(f"ID: {profile['patient_id']} already exists.")
@@ -79,7 +79,7 @@ else:
         update = st.button("Update Info")
 
         if update:
-            client.table(table_name).update(profile).eq("patient_id", profile['patient_id']).execute()
+            client.table(st.secrets["SUPABASE_TABLE"]).update(profile).eq("patient_id", profile['patient_id']).execute()
             st.success(f"ID: {profile['patient_id']} updated.")
         if complete:
             st.success("Go to the next page")
@@ -87,7 +87,7 @@ else:
         # Insert new profile
         profile = patient_profile_form(st.session_state["patient_id"])
         try:
-            response = client.table(table_name).insert(profile).execute()
+            response = client.table(st.secrets["SUPABASE_TABLE"]).insert(profile).execute()
 
             # Optional: check if Supabase returned data
             if response.data:
