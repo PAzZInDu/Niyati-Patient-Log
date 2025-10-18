@@ -1,19 +1,10 @@
 import streamlit as st
 import authlib
-from utils import download_file_from_supabase, upload_file_to_supabase
 from datetime import datetime, date
 from app_utils import create_supabase_client
 
 
-
-
 IMAGE_ADDRESS = "https://www.shutterstock.com/image-photo/doctor-healthcare-medicine-patient-talking-600nw-2191880035.jpg"
-BUCKET_NAME = st.secrets.get("SUPABASE_BUCKET")
-
-
-
-
-
 
 
 def patient_profile_form(patient_id):
@@ -29,6 +20,7 @@ def patient_profile_form(patient_id):
         
         submitted = st.form_submit_button("Save Profile")
 
+
         if submitted:
             if not all([name, emergency_contact, condition]):
                 st.error("Please fill in all required fields.")
@@ -43,16 +35,11 @@ def patient_profile_form(patient_id):
                 }
 
                 return profile
-                # if record_profile_info(client, profile):
-                #     st.success("Profile saved successfully!")
-                #     return True
-                # else:
-                #     st.error("Failed to save profile. Please try again.")
-                #     return False
-
-               
 
 
+
+
+# App Login
 if not st.user.is_logged_in:
     st.title("Patient Log")
     st.image(IMAGE_ADDRESS)
@@ -77,9 +64,9 @@ else:
 
     if existing.data:
         st.session_state.profile_exist = True  # means record already exists
-        st.success(f"ID: {st.session_state['patient_id']} already exists.")
-        # You can optionally merge or update here if needed
-        complete = st.button("Complete")
+        st.success(f"Welcome Back {st.user.name}")
+        
+        st.info("Please Update info or go to Daily Log")
         update = st.button("Update Info")
 
         if update:
@@ -88,9 +75,9 @@ else:
 
             if profile:
                 client.table(st.secrets["SUPABASE_TABLE"]).update(profile).eq("patient_id", st.session_state['patient_id']).execute()
-                st.success(f"ID: {st.session_state['patient_id']} updated.")
-        if complete:
-            st.success("Go to the next page")
+                st.success(f"Profile updated. Please proceed tpo the Daily Log Entry")
+                
+        
     else:
         # Insert new profile
         profile = patient_profile_form(st.session_state["patient_id"])
@@ -108,10 +95,6 @@ else:
         except Exception as e:
             print(f"❌ Insert failed for ID: {st.session_state['patient_id']} — {e}")
             
-        # complete = st.button("Complete")
-        # if complete:
-        #     st.success("Go to the next page")
-        
 
     if st.sidebar.button("Log out", type="secondary", icon=":material/logout:"):
         st.logout()
