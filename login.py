@@ -73,14 +73,14 @@ else:
     existing = client.table(st.secrets["SUPABASE_TABLE"]).select("*").eq("patient_id", st.session_state['patient_id']).execute()
 
     if existing.data:  # means record already exists
-        st.success(f"ID: {profile['patient_id']} already exists.")
+        st.success(f"ID: {st.session_state['patient_id']} already exists.")
         # You can optionally merge or update here if needed
         complete = st.button("Complete")
         update = st.button("Update Info")
 
         if update:
-            client.table(st.secrets["SUPABASE_TABLE"]).update(profile).eq("patient_id", profile['patient_id']).execute()
-            st.success(f"ID: {profile['patient_id']} updated.")
+            client.table(st.secrets["SUPABASE_TABLE"]).update(profile).eq("patient_id", st.session_state['patient_id']).execute()
+            st.success(f"ID: {st.session_state['patient_id']} updated.")
         if complete:
             st.success("Go to the next page")
     else:
