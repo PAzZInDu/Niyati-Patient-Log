@@ -71,6 +71,8 @@ else:
             # Optional: check if Supabase returned data
             if response.data:
                 st.toast("Successfully inserted record for ID", icon="✅")
+                with st.spinner("Wait for it...", show_time=True):
+                    time.sleep(3)
                 #print(f"✅ Successfully inserted record for ID: {st.session_state['patient_id']}")
                 st.rerun()
 
