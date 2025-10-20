@@ -13,7 +13,7 @@ def patient_profile_form(patient_id):
     
     with st.form("profile_form"):
         name = st.text_input("Full Name")
-        dob = st.date_input("Date of Birth", max_value=date.today())
+        dob = st.date_input("Date of Birth", min_value=(date.today() - timedelta(days=365*100)),max_value=date.today())
         emergency_contact = st.text_input("Emergency Contact Number")
         condition = st.text_input("Diagnosed Condition")
         diagnosis_date = st.date_input("Date of Diagnosis/Incident", max_value=date.today())
