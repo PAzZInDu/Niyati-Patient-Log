@@ -72,6 +72,7 @@ else:
             if response.data:
                 st.toast("Successfully inserted record for ID", icon="✅")
                 #print(f"✅ Successfully inserted record for ID: {st.session_state['patient_id']}")
+                st.rerun()
 
                 
             else:
