@@ -68,7 +68,7 @@ def main():
             return
 
         # Check for existing record
-        response = client.table(st.secrets["supabase"]["SUPABASE_TABLE"])\
+        response = client.table(st.secrets["SUPABASE_TABLE"])\
                        .select("*")\
                        .eq("patient_id", st.session_state.patient_id)\
                        .execute()
@@ -81,7 +81,7 @@ def main():
             new_profile = patient_profile_form(st.session_state.patient_id)
             if new_profile:
                 try:
-                    response = client.table(st.secrets["supabase"]["SUPABASE_TABLE"])\
+                    response = client.table(st.secrets["SUPABASE_TABLE"])\
                                    .insert(new_profile)\
                                    .execute()
 
