@@ -12,13 +12,16 @@ if not st.user.is_logged_in:
     st.error("Please log in to access the App")
     st.stop()
 
+if not st.session_state.user_profile == True:
+    st.error("Please finish setting up the profile")
+    st.stop()
 
 st.title("📊 Recovery Dashboard")
 
 
 # Load logs
 client = create_supabase_client()
-log_info = client.table(st.secrets["SUPABASE_PATIENT_LOG_TABLE"]).select("*").eq("patient_id", st.session_state['patient_id']).execute()
+log_info = client.table(st.secrets["supabase"]["SUPABASE_PATIENT_LOG_TABLE"]).select("*").eq("patient_id", st.session_state['patient_id']).execute()
 
 
 if not log_info.data:

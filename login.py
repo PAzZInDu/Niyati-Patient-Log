@@ -2,7 +2,7 @@ import streamlit as st
 import authlib
 import time
 from datetime import datetime, date, timedelta
-from app_utils import create_supabase_client
+from app_utils import create_supabase_client, calculate_age
 
 
 IMAGE_ADDRESS = "https://www.shutterstock.com/image-photo/doctor-healthcare-medicine-patient-talking-600nw-2191880035.jpg"
@@ -60,6 +60,11 @@ def main():
     if "patient_id" not in st.session_state:
         st.session_state.patient_id = st.user.sub
 
+    if "user_profile" not in st.session_state:
+        st.session_state.user_profile = False
+
+
+
     # Initialize Supabase client
     try:
         client = create_supabase_client()
@@ -68,24 +73,28 @@ def main():
             return
 
         # Check for existing record
-        response = client.table(st.secrets["SUPABASE_TABLE"])\
+        response = client.table(st.secrets["supabase"]["SUPABASE_TABLE"])\
                        .select("*")\
                        .eq("patient_id", st.session_state.patient_id)\
                        .execute()
 
         if response.data:
+            st.session_state.age = calculate_age(response.data[0]["dob"])
+            st.session_state.user_profile = True
             st.subheader(f"Welcome {st.user.name}")
-            st.info("Proceed to Daily Log")
+            st.info("Proceed to Daily Log. Also if you want check for Concussion go to Concussion Classification page")
         else:
             # Show profile form for new users
             new_profile = patient_profile_form(st.session_state.patient_id)
             if new_profile:
                 try:
-                    response = client.table(st.secrets["SUPABASE_TABLE"])\
+                    response = client.table(st.secrets["supabase"]["SUPABASE_TABLE"])\
                                    .insert(new_profile)\
                                    .execute()
 
                     if response.data:
+                        st.session_state.age = calculate_age(response.data[0]["dob"])
+                        st.session_state.user_profile = True
                         st.success("Profile saved successfully!")
                         st.balloons()
                         time.sleep(2)
