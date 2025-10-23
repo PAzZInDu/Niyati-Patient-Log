@@ -11,6 +11,10 @@ if not st.user.is_logged_in:
     st.error("Please log in to access the App")
     st.stop()
 
+if not st.session_state.user_profile == True:
+    st.error("Please finish setting up the profile")
+    st.stop()
+
 
 SYMPTOMS = [
     "Headache", "Dizziness", "Nausea", "Fatigue", "Blurred vision",
@@ -31,6 +35,7 @@ mood_mapping = {
     "🙁": 2,
     "😢": 1
 }
+
 
 # App
 st.title("📝 Daily Log Entry")
@@ -65,7 +70,6 @@ with st.form("daily_log_form"):
     if med_taken == "Yes":
         medication_name = st.text_input("Enter medication name")
     
-
     
     # Doctor Visit
     st.subheader("👨‍⚕️ Doctor / Treatment")
@@ -112,6 +116,9 @@ with st.form("daily_log_form"):
     submitted = st.form_submit_button("Save Daily Log")
 
     if submitted:
+        if med_taken == "Yes":
+            medication_name = st.text_input("Enter medication name")
+
         log_entry = {
             'token': str(uuid.uuid4()),
             'patient_id': st.session_state['patient_id'],
@@ -133,7 +140,7 @@ with st.form("daily_log_form"):
 
         client = create_supabase_client()
 
-        client.table(st.secrets["SUPABASE_PATIENT_LOG_TABLE"]).insert(log_entry).execute()
+        client.table(st.secrets["supabase"]["SUPABASE_PATIENT_LOG_TABLE"]).insert(log_entry).execute()
         st.success("Your Information is submitted")
 
 
