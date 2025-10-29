@@ -116,9 +116,7 @@ with st.form("daily_log_form"):
     submitted = st.form_submit_button("Save Daily Log")
 
     if submitted:
-        if med_taken == "Yes":
-            medication_name = st.text_input("Enter medication name")
-
+        
         log_entry = {
             'token': str(uuid.uuid4()),
             'patient_id': st.session_state['patient_id'],
