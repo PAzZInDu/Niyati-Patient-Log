@@ -43,112 +43,109 @@ st.title("📝 Daily Log Entry")
 st.write(f"Welcome! Let's log your day.")
 
 
-with st.form("daily_log_form"):
-    # Date and Time
-    col1, col2 = st.columns(2)
-    with col1:
-        log_date = st.date_input("Date", value=date.today())
-    with col2:
-        log_time = st.time_input("Time", value=datetime.now().time())
-    
-    # Symptoms
-    st.subheader("😵‍💫 Symptoms")
-    selected_symptoms = st.multiselect(
-        "What kind of problems are you experiencing today?",
-        SYMPTOMS
-    )
-    other_symptoms = st.text_input("Other symptoms (please specify)")
-    
-    # Medication
-    st.subheader("💊 Medication")
-    med_taken = st.radio(
-        "Have you taken your prescribed medication today?",
-        ["Yes", "No"],
-        horizontal=True
-    )
-    medication_name = ""
-    if med_taken == "Yes":
-        medication_name = st.text_input("Enter medication name")
-    
-    
-    # Doctor Visit
-    st.subheader("👨‍⚕️ Doctor / Treatment")
-    doctor_visited = st.radio(
-        "Did you visit a doctor today?",
-        ["Yes", "No"],
-        horizontal=True
-    )
-    
-    doctor_type = ""
-    doctor_notes = ""
-    if doctor_visited == "Yes":
-        doctor_type = st.selectbox("What kind of doctor?", DOCTOR_TYPES)
-        if doctor_type == "Other":
-            doctor_type = st.text_input("Please specify")
-        doctor_notes = st.text_area("Any new advice or change in medication?")
-    
-    # Recovery Indicators
-    st.subheader("🧩 Recovery Indicators")
-    symptom_severity = st.slider(
-        "How severe are your symptoms today?",
-        1, 10, 5,
-        help="1 = Very mild, 10 = Extremely severe"
-    )
-    
-    sleep_quality = st.radio(
-        "How was your sleep last night?",
-        ["😊 Good", "😐 Average", "😞 Poor"],
-        horizontal=True
-    )
-    
-    physical_activity = st.radio(
-        "Did you do any physical activity today?",
-        ["🚶‍♂️ Light", "🏃‍♂️ Moderate", "💪 Intense", "❌ None"],
-        horizontal=True
-    )
-    
-    mood_choice = st.radio(
-        "Overall feeling today:",
-        list(mood_mapping.keys()),
-        horizontal=True
-    )
-    
-    submitted = st.form_submit_button("Save Daily Log")
+# Date and Time
+col1, col2 = st.columns(2)
+with col1:
+    log_date = st.date_input("Date", value=date.today())
+with col2:
+    log_time = st.time_input("Time", value=datetime.now().time())
 
-    if submitted:
-        
-        log_entry = {
-            'token': str(uuid.uuid4()),
-            'patient_id': st.session_state['patient_id'],
-            'date': log_date.isoformat(),
-            'time': log_time.strftime("%H:%M"),
-            'symptoms': ", ".join(selected_symptoms),
-            'other_symptoms': other_symptoms,
-            'medication_taken': med_taken == "Yes",
-            'medication_name': medication_name if med_taken == "Yes" else "",
-            'doctor_visited': doctor_visited == "Yes",
-            'doctor_type': doctor_type if doctor_visited == "Yes" else "",
-            'doctor_notes': doctor_notes if doctor_visited == "Yes" else "",
-            'symptom_severity': symptom_severity,
-            'sleep_quality': sleep_quality.split()[1],
-            'physical_activity': physical_activity.split()[-1],
-            'mood': mood_mapping[mood_choice],
-            'logged_at': datetime.utcnow().isoformat()
-        }
+st.divider()
 
-        client = create_supabase_client()
+# Symptoms
+st.subheader("😵‍💫 Symptoms")
+selected_symptoms = st.multiselect(
+    "What kind of problems are you experiencing today?",
+    SYMPTOMS
+)
+other_symptoms = st.text_input("Other symptoms (please specify)")
 
-        client.table(st.secrets["supabase"]["SUPABASE_PATIENT_LOG_TABLE"]).insert(log_entry).execute()
-        st.success("Your Information is submitted")
+st.divider()
+
+# Medication
+st.subheader("💊 Medication")
+med_taken = st.radio(
+    "Have you taken your prescribed medication today?",
+    ["Yes", "No"],
+    horizontal=True
+)
+medication_name = ""
+if med_taken == "Yes":
+    medication_name = st.text_input("Enter medication name")
 
 
+# Doctor Visit
+st.subheader("👨‍⚕️ Doctor / Treatment")
+doctor_visited = st.radio(
+    "Did you visit a doctor today?",
+    ["Yes", "No"],
+    horizontal=True
+)
+
+doctor_type = ""
+doctor_notes = ""
+if doctor_visited == "Yes":
+    doctor_type = st.selectbox("What kind of doctor?", DOCTOR_TYPES)
+    if doctor_type == "Other":
+        doctor_type = st.text_input("Please specify")
+    doctor_notes = st.text_area("Any new advice or change in medication?")
 
 
+st.divider() 
 
 
+# Recovery Indicators
+st.subheader("🧩 Recovery Indicators")
+symptom_severity = st.slider(
+    "How severe are your symptoms today?",
+    1, 10, 5,
+    help="1 = Very mild, 10 = Extremely severe"
+)
 
+sleep_quality = st.radio(
+    "How was your sleep last night?",
+    ["😊 Good", "😐 Average", "😞 Poor"],
+    horizontal=True
+)
 
+physical_activity = st.radio(
+    "Did you do any physical activity today?",
+    ["🚶‍♂️ Light", "🏃‍♂️ Moderate", "💪 Intense", "❌ None"],
+    horizontal=True
+)
 
-        
-        
-        
+mood_choice = st.radio(
+    "Overall feeling today:",
+    list(mood_mapping.keys()),
+    horizontal=True
+)
+
+st.divider()
+
+submitted = st.button("Save Daily Log")
+
+if submitted:
+
+    log_entry = {
+        'token': str(uuid.uuid4()),
+        'patient_id': st.session_state['patient_id'],
+        'date': log_date.isoformat(),
+        'time': log_time.strftime("%H:%M"),
+        'symptoms': ", ".join(selected_symptoms),
+        'other_symptoms': other_symptoms,
+        'medication_taken': med_taken == "Yes",
+        'medication_name': medication_name if med_taken == "Yes" else "",
+        'doctor_visited': doctor_visited == "Yes",
+        'doctor_type': doctor_type if doctor_visited == "Yes" else "",
+        'doctor_notes': doctor_notes if doctor_visited == "Yes" else "",
+        'symptom_severity': symptom_severity,
+        'sleep_quality': sleep_quality.split()[1],
+        'physical_activity': physical_activity.split()[-1],
+        'mood': mood_mapping[mood_choice],
+        'logged_at': datetime.utcnow().isoformat()
+    }
+
+    client = create_supabase_client()
+
+    client.table(st.secrets["supabase"]["SUPABASE_PATIENT_LOG_TABLE"]).insert(log_entry).execute()
+    st.success("Your Information is submitted")
