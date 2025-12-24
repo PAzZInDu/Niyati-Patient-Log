@@ -34,6 +34,11 @@ def patient_profile_form(patient_id):
             if not all([name, emergency_contact, condition]):
                 st.error("Please fill in all required fields.")
                 return None
+            
+            if calculate_age(dob.isoformat()) < 3:
+                st.error("Age Should be atleast 3 Years")
+                return None
+            
             if diagnosis_date < dob:
                 st.error("Diagnosis date cannot be before date of birth.")
                 return None
@@ -63,7 +68,7 @@ def main():
     if "user_profile" not in st.session_state:
         st.session_state.user_profile = False
 
-
+    
 
     # Initialize Supabase client
     try:
